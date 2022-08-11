@@ -2,33 +2,33 @@ package core
 
 type Num interface {
 	Comparable[Number]
-	getDelegate() Number
-	getName() string
-	plus(Num) Num
-	minus(Num) Num
-	multipliedBy(Num) Num
-	dividedBy(Num) Num
-	remainder(Num) Num
-	floor() Num
-	ceil() Num
-	pow(int Num) Num
-	log() Num
-	sqrt() Num
-	abs() Num
-	negate() Num
-	isPositive() bool
-	isNegative() bool
-	isNegativeOrZero() bool
-	isGreaterThan(Num) bool
-	isGreaterThanOrEqual(Num) bool
-	isLessThan(Num) bool
-	isLessThanOrEqual(Num) bool
-	min(Num) Num
-	max(Num) Num
-	numOf(Number) Num
+	GetDelegate() Number
+	GetName() string
+	Plus(Num) Num
+	Minus(Num) Num
+	MultipliedBy(Num) Num
+	DividedBy(Num) Num
+	Remainder(Num) Num
+	Floor() Num
+	Ceil() Num
+	Pow(int Num) Num
+	Log() Num
+	Sqrt() Num
+	Abs() Num
+	Negate() Num
+	IsPositive() bool
+	IsNegative() bool
+	IsNegativeOrZero() bool
+	IsGreaterThan(Num) bool
+	IsGreaterThanOrEqual(Num) bool
+	IsLessThan(Num) bool
+	IsLessThanOrEqual(Num) bool
+	Min(Num) Num
+	Max(Num) Num
+	NumOf(Number) Num
 	Function(Number, Num)
-	isNan() bool
-	hashCode() int
-	toString() string
-	equals(Num) bool
+	IsNan() bool
+	HashCode() int
+	ToString() string
+	Equals(Num) bool
 }

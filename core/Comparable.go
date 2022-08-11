@@ -1,5 +1,5 @@
 package core
 
 type Comparable[T Number] interface {
-	compareTo(T Number) int
+	CompareTo(T Number) int
 }

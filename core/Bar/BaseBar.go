@@ -2,12 +2,13 @@ package bar
 
 import (
 	"time"
-	"wlog3/ta4go/core"
+	core "wlog3/ta4go/core"
 )
 
 var _ Bar = &BaseBar{}
 
 type BaseBar struct {
+	Bar
 	openPrice  core.Num
 	closePrice core.Num
 	highPrice  core.Num
@@ -57,10 +58,10 @@ func (b *BaseBar) addPrice(tradePrice core.Num) {
 		b.openPrice = tradePrice
 	}
 	b.closePrice = tradePrice
-	if b.highPrice == nil || b.highPrice.isLessThan(tradePrice) {
+	if b.highPrice == nil || b.highPrice.IsLessThan(tradePrice) {
 		b.highPrice = tradePrice
 	}
-	if b.lowPrice == nil || b.lowPrice.isGreaterThan(tradePrice) {
+	if b.lowPrice == nil || b.lowPrice.IsGreaterThan(tradePrice) {
 		b.lowPrice = tradePrice
 	}
 }
@@ -78,8 +79,8 @@ func (*BaseBar) addTrade(float32, float32) {
 // addTradeSimple implements Bar
 func (b *BaseBar) addTradeSimple(tradeVolume core.Num, tradePrice core.Num) {
 	b.addPrice(tradePrice)
-	b.volume = b.volume.plus(tradeVolume)
-	b.amount = b.amount.plus(tradeVolume.multipliedBy(tradePrice))
+	b.volume = b.volume.Plus(tradeVolume)
+	b.amount = b.amount.Plus(tradeVolume.MultipliedBy(tradePrice))
 }
 
 // getAmount implements Bar
@@ -139,12 +140,12 @@ func (b *BaseBar) inPeriod(timestamp time.Time) bool {
 
 // isBearish implements Bar
 func (b *BaseBar) isBearish() bool {
-	return b.openPrice != nil && b.closePrice != nil && b.closePrice.isLessThan(b.openPrice)
+	return b.openPrice != nil && b.closePrice != nil && b.closePrice.IsLessThan(b.openPrice)
 }
 
 // isBullish implements Bar
 func (b *BaseBar) isBullish() bool {
-	return b.openPrice != nil && b.closePrice != nil && b.openPrice.isLessThan(b.closePrice)
+	return b.openPrice != nil && b.closePrice != nil && b.openPrice.IsLessThan(b.closePrice)
 }
 
 // getLowPrice implements Bar

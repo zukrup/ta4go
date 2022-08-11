@@ -18,11 +18,11 @@ func (DoubleNum) EPS() float64 {
 	return 0.00001
 }
 
-func (DoubleNum) valueOf32f(i float32) DoubleNum {
+func (DoubleNum) ValueOf32f(i float32) DoubleNum {
 	return DoubleNum{float64(i)}
 }
 
-func (DoubleNum) valueOf64f(i float64) DoubleNum {
+func (DoubleNum) ValueOf64f(i float64) DoubleNum {
 	return DoubleNum{i}
 }
 
@@ -32,147 +32,147 @@ func (*DoubleNum) Function(Number, Num) {
 }
 
 // abs implements Num
-func (*DoubleNum) abs() Num {
+func (*DoubleNum) Abs() Num {
 	panic("unimplemented")
 }
 
 // ceil implements Num
-func (*DoubleNum) ceil() Num {
+func (*DoubleNum) Ceil() Num {
 	panic("unimplemented")
 }
 
 // dividedBy implements Num
-func (*DoubleNum) dividedBy(Num) Num {
+func (*DoubleNum) DividedBy(Num) Num {
 	panic("unimplemented")
 }
 
 // equals implements Num
-func (*DoubleNum) equals(Num) bool {
+func (*DoubleNum) Equals(Num) bool {
 	panic("unimplemented")
 }
 
 // floor implements Num
-func (*DoubleNum) floor() Num {
+func (*DoubleNum) Floor() Num {
 	panic("unimplemented")
 }
 
 // getDelegate implements Num
-func (*DoubleNum) getDelegate() Number {
+func (*DoubleNum) GetDelegate() Number {
 	panic("unimplemented")
 }
 
 // getName implements Num
-func (*DoubleNum) getName() string {
+func (*DoubleNum) GetName() string {
 	panic("unimplemented")
 }
 
 // hashCode implements Num
-func (*DoubleNum) hashCode() int {
+func (*DoubleNum) HashCode() int {
 	panic("unimplemented")
 }
 
 // isGreaterThan implements Num
-func (d *DoubleNum) isGreaterThan(n Num) bool {
-	return d != nil && d.compareTo(n.getDelegate()) > 0
+func (d *DoubleNum) IsGreaterThan(n Num) bool {
+	return d != nil && d.CompareTo(n.GetDelegate()) < 1
 }
 
 // isGreaterThanOrEqual implements Num
-func (*DoubleNum) isGreaterThanOrEqual(Num) bool {
+func (*DoubleNum) IsGreaterThanOrEqual(Num) bool {
 	panic("unimplemented")
 }
 
 // isLessThan implements Num
-func (d *DoubleNum) isLessThan(n Num) bool {
-	return d != nil && d.compareTo(n.getDelegate()) < 1
+func (d *DoubleNum) IsLessThan(n Num) bool {
+	return d != nil && d.CompareTo(n.GetDelegate()) < 1
 }
 
 // isLessThanOrEqual implements Num
-func (*DoubleNum) isLessThanOrEqual(Num) bool {
+func (*DoubleNum) IsLessThanOrEqual(Num) bool {
 	panic("unimplemented")
 }
 
 // isNan implements Num
-func (*DoubleNum) isNan() bool {
+func (*DoubleNum) IsNan() bool {
 	panic("unimplemented")
 }
 
 // isNegative implements Num
-func (*DoubleNum) isNegative() bool {
+func (*DoubleNum) IsNegative() bool {
 	panic("unimplemented")
 }
 
 // isNegativeOrZero implements Num
-func (*DoubleNum) isNegativeOrZero() bool {
+func (*DoubleNum) IsNegativeOrZero() bool {
 	panic("unimplemented")
 }
 
 // isPositive implements Num
-func (*DoubleNum) isPositive() bool {
+func (*DoubleNum) IsPositive() bool {
 	panic("unimplemented")
 }
 
 // log implements Num
-func (*DoubleNum) log() Num {
+func (*DoubleNum) Log() Num {
 	panic("unimplemented")
 }
 
 // max implements Num
-func (*DoubleNum) max(Num) Num {
+func (*DoubleNum) Max(Num) Num {
 	panic("unimplemented")
 }
 
 // min implements Num
-func (*DoubleNum) min(Num) Num {
+func (*DoubleNum) Min(Num) Num {
 	panic("unimplemented")
 }
 
 // minus implements Num
-func (*DoubleNum) minus(Num) Num {
+func (*DoubleNum) Minus(Num) Num {
 	panic("unimplemented")
 }
 
 // multipliedBy implements Num
-func (*DoubleNum) multipliedBy(Num) Num {
+func (*DoubleNum) MultipliedBy(Num) Num {
 	panic("unimplemented")
 }
 
 // negate implements Num
-func (*DoubleNum) negate() Num {
+func (*DoubleNum) Negate() Num {
 	panic("unimplemented")
 }
 
 // numOf implements Num
-func (*DoubleNum) numOf(Number) Num {
+func (*DoubleNum) NumOf(Number) Num {
 	panic("unimplemented")
 }
 
 // plus implements Num
-func (*DoubleNum) plus(Num) Num {
+func (*DoubleNum) Plus(Num) Num {
 	panic("unimplemented")
 }
 
 // pow implements Num
-func (*DoubleNum) pow(int Num) Num {
+func (*DoubleNum) Pow(int Num) Num {
 	panic("unimplemented")
 }
 
 // remainder implements Num
-func (*DoubleNum) remainder(Num) Num {
+func (*DoubleNum) Remainder(Num) Num {
 	panic("unimplemented")
 }
 
 // sqrt implements Num
-func (*DoubleNum) sqrt() Num {
+func (*DoubleNum) Sqrt() Num {
 	panic("unimplemented")
 }
 
 // toString implements Num
-func (*DoubleNum) toString() string {
+func (*DoubleNum) ToString() string {
 	panic("unimplemented")
 }
 
 // compareTo implements Num
-func (d *DoubleNum) compareTo(T Number) int {
+func (d *DoubleNum) CompareTo(T Number) int {
 	if d == nil || T == nil {
 		return 0
 	}
