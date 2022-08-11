@@ -1,5 +1,7 @@
 package core
 
+import "fmt"
+
 var _ Num = &DoubleNum{}
 
 type DoubleNum struct {
@@ -167,8 +169,8 @@ func (*DoubleNum) Sqrt() Num {
 }
 
 // toString implements Num
-func (*DoubleNum) ToString() string {
-	panic("unimplemented")
+func (d *DoubleNum) ToString() string {
+	return fmt.Sprintf("%f", d.delegate)
 }
 
 // compareTo implements Num

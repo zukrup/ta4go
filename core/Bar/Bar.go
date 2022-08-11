@@ -6,24 +6,24 @@ import (
 )
 
 type Bar interface {
-	getOpenPrice() core.Num
-
-	getLowPrice() core.Num
-	getHighPrice() core.Num
-	getClosePrice() core.Num
-	getVolume() core.Num
-	getTrades() int64
-	getAmount() core.Num
-	getTimePeriod() time.Duration
-	getBeginTime() time.Time
-	getEndTime() time.Time
-	inPeriod(time.Time) bool
-	getDateName() string
-	getSimpleDateName() string
-	isBearish() bool
-	isBullish() bool
-	addTrade(float32, float32)
-	addTradeSimple(core.Num, core.Num)
-	addPriceWithString(string)
-	addPrice(core.Num)
+	GetOpenPrice() core.Num
+	GetLowPrice() core.Num
+	GetHighPrice() core.Num
+	GetClosePrice() core.Num
+	GetVolume() core.Num
+	GetTrades() int64
+	GetAmount() core.Num
+	GetTimePeriod() time.Duration
+	GetBeginTime() time.Time
+	GetEndTime() time.Time
+	InPeriod(time.Time) bool
+	GetDateName() string
+	GetSimpleDateName() string
+	IsBearish() bool
+	IsBullish() bool
+	AddTrade(float32, float32)
+	AddTradeSimple(core.Num, core.Num)
+	AddPriceWithString(string)
+	AddPrice(core.Num)
+	ToString() string
 }

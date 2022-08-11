@@ -1,6 +1,9 @@
 package bar
 
 import (
+	"fmt"
+	"math"
+	"math/rand"
 	"time"
 	core "wlog3/ta4go/core"
 )
@@ -8,7 +11,6 @@ import (
 var _ Bar = &BaseBar{}
 
 type BaseBar struct {
-	Bar
 	openPrice  core.Num
 	closePrice core.Num
 	highPrice  core.Num
@@ -48,12 +50,29 @@ func New(
 	}
 }
 
-func (b *BaseBar) getOpenPrice() core.Num {
+func NewFakeBar() Bar {
+	seed := math.Abs(rand.Float64())
+	vol := math.Abs(float64(rand.Int()))
+	return &BaseBar{
+		openPrice:  core.New(seed * 0.25),
+		closePrice: core.New(seed * 0.9),
+		highPrice:  core.New(seed * 1.1),
+		lowPrice:   core.New(seed * 0.1),
+		amount:     core.New(seed * 5),
+		volume:     core.New(vol),
+		trades:     5,
+		timePeriod: time.Hour,
+		endTime:    time.Now().Add(time.Hour),
+		beginTime:  time.Now(),
+	}
+}
+
+func (b *BaseBar) GetOpenPrice() core.Num {
 	return b.openPrice
 }
 
 // addPrice implements Bar
-func (b *BaseBar) addPrice(tradePrice core.Num) {
+func (b *BaseBar) AddPrice(tradePrice core.Num) {
 	if b.openPrice == nil {
 		b.openPrice = tradePrice
 	}
@@ -67,88 +86,94 @@ func (b *BaseBar) addPrice(tradePrice core.Num) {
 }
 
 // addPriceWithString implements Bar
-func (*BaseBar) addPriceWithString(s string) {
+func (*BaseBar) AddPriceWithString(s string) {
 	panic("unimplemented")
 }
 
 // addTrade implements Bar
-func (*BaseBar) addTrade(float32, float32) {
+func (*BaseBar) AddTrade(float32, float32) {
 	panic("unimplemented")
 }
 
 // addTradeSimple implements Bar
-func (b *BaseBar) addTradeSimple(tradeVolume core.Num, tradePrice core.Num) {
-	b.addPrice(tradePrice)
+func (b *BaseBar) AddTradeSimple(tradeVolume core.Num, tradePrice core.Num) {
+	b.AddPrice(tradePrice)
 	b.volume = b.volume.Plus(tradeVolume)
 	b.amount = b.amount.Plus(tradeVolume.MultipliedBy(tradePrice))
 }
 
-// getAmount implements Bar
-func (b *BaseBar) getAmount() core.Num {
+// GetAmount implements Bar
+func (b *BaseBar) GetAmount() core.Num {
 	return b.amount
 }
 
-// getBeginTime implements Bar
-func (b *BaseBar) getBeginTime() time.Time {
+// GetBeginTime implements Bar
+func (b *BaseBar) GetBeginTime() time.Time {
 	return b.beginTime
 }
 
-// getClosePrice implements Bar
-func (b *BaseBar) getClosePrice() core.Num {
+// GetClosePrice implements Bar
+func (b *BaseBar) GetClosePrice() core.Num {
 	return b.closePrice
 }
 
-// getDateName implements Bar
-func (b *BaseBar) getDateName() string {
+// GetDateName implements Bar
+func (b *BaseBar) GetDateName() string {
 	return b.endTime.Format(time.RFC3339)
 }
 
-// getEndTime implements Bar
-func (b *BaseBar) getEndTime() time.Time {
+// GetEndTime implements Bar
+func (b *BaseBar) GetEndTime() time.Time {
 	return b.endTime
 }
 
-// getHighPrice implements Bar
-func (b *BaseBar) getHighPrice() core.Num {
+// GetHighPrice implements Bar
+func (b *BaseBar) GetHighPrice() core.Num {
 	return b.highPrice
 }
 
-// getSimpleDateName implements Bar
-func (b *BaseBar) getSimpleDateName() string {
+// GetSimpleDateName implements Bar
+func (b *BaseBar) GetSimpleDateName() string {
 	return b.endTime.Local().Format(time.RFC3339)
 }
 
-// getTimePeriod implements Bar
-func (b *BaseBar) getTimePeriod() time.Duration {
+// GetTimePeriod implements Bar
+func (b *BaseBar) GetTimePeriod() time.Duration {
 	return b.timePeriod
 }
 
-// getTrades implements Bar
-func (b *BaseBar) getTrades() int64 {
+// GetTrades implements Bar
+func (b *BaseBar) GetTrades() int64 {
 	return b.trades
 }
 
-// getVolume implements Bar
-func (b *BaseBar) getVolume() core.Num {
+// GetVolume implements Bar
+func (b *BaseBar) GetVolume() core.Num {
 	return b.volume
 }
 
 // inPeriod implements Bar
-func (b *BaseBar) inPeriod(timestamp time.Time) bool {
+func (b *BaseBar) InPeriod(timestamp time.Time) bool {
 	return !timestamp.Before(b.beginTime) && timestamp.Before(b.endTime)
 }
 
 // isBearish implements Bar
-func (b *BaseBar) isBearish() bool {
+func (b *BaseBar) IsBearish() bool {
 	return b.openPrice != nil && b.closePrice != nil && b.closePrice.IsLessThan(b.openPrice)
 }
 
 // isBullish implements Bar
-func (b *BaseBar) isBullish() bool {
+func (b *BaseBar) IsBullish() bool {
 	return b.openPrice != nil && b.closePrice != nil && b.openPrice.IsLessThan(b.closePrice)
 }
 
-// getLowPrice implements Bar
-func (b *BaseBar) getLowPrice() core.Num {
+// GetLowPrice implements Bar
+func (b *BaseBar) GetLowPrice() core.Num {
 	return b.lowPrice
+}
+
+func (b *BaseBar) ToString() string {
+	return fmt.Sprintf("{end time: %d, close price: %s, open price: %s, low price: %s, high price: %s, volume: %s}",
+		b.endTime.Local().Nanosecond(), b.closePrice.ToString(), b.openPrice.ToString(), b.lowPrice.ToString(), b.highPrice.ToString(),
+		b.volume.ToString())
 }
