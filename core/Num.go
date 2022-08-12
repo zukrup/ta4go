@@ -1,8 +1,8 @@
 package core
 
 type Num interface {
-	Comparable[Number]
-	GetDelegate() Number
+	Comparable[Num]
+	GetDelegate() float64
 	GetName() string
 	Plus(Num) Num
 	Minus(Num) Num
@@ -11,7 +11,7 @@ type Num interface {
 	Remainder(Num) Num
 	Floor() Num
 	Ceil() Num
-	Pow(int Num) Num
+	Pow(int) Num
 	Log() Num
 	Sqrt() Num
 	Abs() Num
@@ -25,8 +25,8 @@ type Num interface {
 	IsLessThanOrEqual(Num) bool
 	Min(Num) Num
 	Max(Num) Num
-	NumOf(Number) Num
-	Function(Number, Num)
+	NumOf(float64) Num
+	Function(Num, Num)
 	IsNan() bool
 	HashCode() int
 	ToString() string

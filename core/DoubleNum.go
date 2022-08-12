@@ -1,6 +1,9 @@
 package core
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 var _ Num = &DoubleNum{}
 
@@ -29,7 +32,7 @@ func (DoubleNum) ValueOf64f(i float64) DoubleNum {
 }
 
 // Function implements Num
-func (*DoubleNum) Function(Number, Num) {
+func (*DoubleNum) Function(Num, Num) {
 	panic("unimplemented")
 }
 
@@ -49,9 +52,26 @@ func (*DoubleNum) DividedBy(Num) Num {
 }
 
 // equals implements Num
-func (*DoubleNum) Equals(Num) bool {
-	panic("unimplemented")
+func (d *DoubleNum) Equals(n Num) bool {
+	if n == nil {
+		return false
+	}
+
+	return math.Abs(d.delegate-n.GetDelegate()) < d.EPS()
 }
+
+/*
+
+@Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof DoubleNum)) {
+            return false;
+        }
+
+        DoubleNum doubleNumObj = (DoubleNum) obj;
+        return Math.abs(delegate - doubleNumObj.delegate) < EPS;
+    }
+*/
 
 // floor implements Num
 func (*DoubleNum) Floor() Num {
@@ -59,8 +79,8 @@ func (*DoubleNum) Floor() Num {
 }
 
 // getDelegate implements Num
-func (*DoubleNum) GetDelegate() Number {
-	panic("unimplemented")
+func (d *DoubleNum) GetDelegate() float64 {
+	return d.delegate
 }
 
 // getName implements Num
@@ -75,97 +95,115 @@ func (*DoubleNum) HashCode() int {
 
 // isGreaterThan implements Num
 func (d *DoubleNum) IsGreaterThan(n Num) bool {
-	return d != nil && d.CompareTo(n.GetDelegate()) < 1
+	return n != nil && d.CompareTo(n) > 0
 }
 
 // isGreaterThanOrEqual implements Num
-func (*DoubleNum) IsGreaterThanOrEqual(Num) bool {
-	panic("unimplemented")
+func (d *DoubleNum) IsGreaterThanOrEqual(n Num) bool {
+	return n != nil && d.CompareTo(n) > -1
 }
 
 // isLessThan implements Num
 func (d *DoubleNum) IsLessThan(n Num) bool {
-	return d != nil && d.CompareTo(n.GetDelegate()) < 1
+	return d != nil && d.CompareTo(n) < 0
 }
 
 // isLessThanOrEqual implements Num
-func (*DoubleNum) IsLessThanOrEqual(Num) bool {
-	panic("unimplemented")
+func (d *DoubleNum) IsLessThanOrEqual(n Num) bool {
+	return d != nil && d.CompareTo(n) < 1
 }
 
 // isNan implements Num
 func (*DoubleNum) IsNan() bool {
-	panic("unimplemented")
+	return false
 }
 
 // isNegative implements Num
-func (*DoubleNum) IsNegative() bool {
-	panic("unimplemented")
+func (d *DoubleNum) IsNegative() bool {
+	return d.delegate < 0
 }
 
 // isNegativeOrZero implements Num
-func (*DoubleNum) IsNegativeOrZero() bool {
-	panic("unimplemented")
+func (d *DoubleNum) IsNegativeOrZero() bool {
+	return d.delegate <= 0
 }
 
 // isPositive implements Num
-func (*DoubleNum) IsPositive() bool {
-	panic("unimplemented")
+func (d *DoubleNum) IsPositive() bool {
+	return d.delegate > 0
 }
 
 // log implements Num
-func (*DoubleNum) Log() Num {
-	panic("unimplemented")
+func (d *DoubleNum) Log() Num {
+	d.delegate = math.Log(d.delegate)
+	return d
 }
 
 // max implements Num
-func (*DoubleNum) Max(Num) Num {
-	panic("unimplemented")
+func (d *DoubleNum) Max(n Num) Num {
+	d.delegate = math.Max(d.delegate, n.GetDelegate())
+	return d
 }
 
 // min implements Num
-func (*DoubleNum) Min(Num) Num {
-	panic("unimplemented")
+func (d *DoubleNum) Min(n Num) Num {
+	d.delegate = math.Min(d.delegate, n.GetDelegate())
+	return d
 }
 
 // minus implements Num
-func (*DoubleNum) Minus(Num) Num {
-	panic("unimplemented")
+func (d *DoubleNum) Minus(n Num) Num {
+	d.delegate -= n.GetDelegate()
+	return d
 }
 
 // multipliedBy implements Num
-func (*DoubleNum) MultipliedBy(Num) Num {
-	panic("unimplemented")
+func (d *DoubleNum) MultipliedBy(n Num) Num {
+	d.delegate += n.GetDelegate()
+	return d
 }
 
 // negate implements Num
-func (*DoubleNum) Negate() Num {
-	panic("unimplemented")
+func (d *DoubleNum) Negate() Num {
+	d.delegate = -d.delegate
+	return d
 }
 
 // numOf implements Num
-func (*DoubleNum) NumOf(Number) Num {
-	panic("unimplemented")
+func (DoubleNum) NumOf(val float64) Num {
+	return &DoubleNum{
+		delegate: val,
+	}
 }
 
 // plus implements Num
-func (*DoubleNum) Plus(Num) Num {
-	panic("unimplemented")
+func (d *DoubleNum) Plus(n Num) Num {
+	d.delegate += n.GetDelegate()
+	return d
 }
 
 // pow implements Num
-func (*DoubleNum) Pow(int Num) Num {
-	panic("unimplemented")
+func (d *DoubleNum) Pow(i int) Num {
+	d.delegate = math.Pow(d.delegate, float64(i))
+	return d
 }
 
 // remainder implements Num
-func (*DoubleNum) Remainder(Num) Num {
-	panic("unimplemented")
+func (d *DoubleNum) Remainder(divisor Num) Num {
+	if divisor.IsNan() {
+		return &DoubleNum{delegate: 02}
+	}
+	val := math.Remainder(d.delegate, divisor.GetDelegate())
+	return &DoubleNum{delegate: val}
 }
 
 // sqrt implements Num
-func (*DoubleNum) Sqrt() Num {
-	panic("unimplemented")
+func (d *DoubleNum) Sqrt() Num {
+	if d.delegate < 0 {
+		return nil //todo: NAN implemente edilecek
+	}
+	d.delegate = math.Sqrt(d.delegate)
+	return d
 }
 
 // toString implements Num
@@ -174,10 +212,10 @@ func (d *DoubleNum) ToString() string {
 }
 
 // compareTo implements Num
-func (d *DoubleNum) CompareTo(T Number) int {
+func (d *DoubleNum) CompareTo(T Num) int {
 	if d == nil || T == nil {
 		return 0
 	}
 
-	return int(d.delegate) - int(T.intValue())
+	return int(d.delegate) - int(T.GetDelegate())
 }
