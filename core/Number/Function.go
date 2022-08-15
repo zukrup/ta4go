@@ -1,4 +1,4 @@
-package core
+package Number
 
 type Function[T any, R any] interface {
 	Apply(T) R

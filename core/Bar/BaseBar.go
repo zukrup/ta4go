@@ -5,18 +5,18 @@ import (
 	"math"
 	"math/rand"
 	"time"
-	core "wlog3/ta4go/core"
+	"wlog3/ta4go/core/Number"
 )
 
 var _ Bar = &BaseBar{}
 
 type BaseBar struct {
-	openPrice  core.Num
-	closePrice core.Num
-	highPrice  core.Num
-	lowPrice   core.Num
-	amount     core.Num
-	volume     core.Num
+	openPrice  Number.Num
+	closePrice Number.Num
+	highPrice  Number.Num
+	lowPrice   Number.Num
+	amount     Number.Num
+	volume     Number.Num
 	trades     int64
 	timePeriod time.Duration
 	endTime    time.Time
@@ -37,12 +37,12 @@ func New(
 
 ) Bar {
 	return &BaseBar{
-		openPrice:  core.New(open),
-		closePrice: core.New(close),
-		highPrice:  core.New(high),
-		lowPrice:   core.New(low),
-		amount:     core.New(a),
-		volume:     core.New(v),
+		openPrice:  Number.New(open),
+		closePrice: Number.New(close),
+		highPrice:  Number.New(high),
+		lowPrice:   Number.New(low),
+		amount:     Number.New(a),
+		volume:     Number.New(v),
 		trades:     trades,
 		timePeriod: period,
 		endTime:    end,
@@ -54,12 +54,12 @@ func NewFakeBar() Bar {
 	seed := math.Abs(rand.Float64())
 	vol := math.Abs(float64(rand.Int()))
 	return &BaseBar{
-		openPrice:  core.New(seed * 0.25),
-		closePrice: core.New(seed * 0.9),
-		highPrice:  core.New(seed * 1.1),
-		lowPrice:   core.New(seed * 0.1),
-		amount:     core.New(seed * 5),
-		volume:     core.New(vol),
+		openPrice:  Number.New(seed * 0.25),
+		closePrice: Number.New(seed * 0.9),
+		highPrice:  Number.New(seed * 1.1),
+		lowPrice:   Number.New(seed * 0.1),
+		amount:     Number.New(seed * 5),
+		volume:     Number.New(vol),
 		trades:     5,
 		timePeriod: time.Hour,
 		endTime:    time.Now().Add(time.Hour),
@@ -67,12 +67,12 @@ func NewFakeBar() Bar {
 	}
 }
 
-func (b *BaseBar) GetOpenPrice() core.Num {
+func (b *BaseBar) GetOpenPrice() Number.Num {
 	return b.openPrice
 }
 
 // addPrice implements Bar
-func (b *BaseBar) AddPrice(tradePrice core.Num) {
+func (b *BaseBar) AddPrice(tradePrice Number.Num) {
 	if b.openPrice == nil {
 		b.openPrice = tradePrice
 	}
@@ -96,14 +96,14 @@ func (*BaseBar) AddTrade(float32, float32) {
 }
 
 // addTradeSimple implements Bar
-func (b *BaseBar) AddTradeSimple(tradeVolume core.Num, tradePrice core.Num) {
+func (b *BaseBar) AddTradeSimple(tradeVolume Number.Num, tradePrice Number.Num) {
 	b.AddPrice(tradePrice)
 	b.volume = b.volume.Plus(tradeVolume)
 	b.amount = b.amount.Plus(tradeVolume.MultipliedBy(tradePrice))
 }
 
 // GetAmount implements Bar
-func (b *BaseBar) GetAmount() core.Num {
+func (b *BaseBar) GetAmount() Number.Num {
 	return b.amount
 }
 
@@ -113,7 +113,7 @@ func (b *BaseBar) GetBeginTime() time.Time {
 }
 
 // GetClosePrice implements Bar
-func (b *BaseBar) GetClosePrice() core.Num {
+func (b *BaseBar) GetClosePrice() Number.Num {
 	return b.closePrice
 }
 
@@ -128,7 +128,7 @@ func (b *BaseBar) GetEndTime() time.Time {
 }
 
 // GetHighPrice implements Bar
-func (b *BaseBar) GetHighPrice() core.Num {
+func (b *BaseBar) GetHighPrice() Number.Num {
 	return b.highPrice
 }
 
@@ -148,7 +148,7 @@ func (b *BaseBar) GetTrades() int64 {
 }
 
 // GetVolume implements Bar
-func (b *BaseBar) GetVolume() core.Num {
+func (b *BaseBar) GetVolume() Number.Num {
 	return b.volume
 }
 
@@ -168,7 +168,7 @@ func (b *BaseBar) IsBullish() bool {
 }
 
 // GetLowPrice implements Bar
-func (b *BaseBar) GetLowPrice() core.Num {
+func (b *BaseBar) GetLowPrice() Number.Num {
 	return b.lowPrice
 }
 

@@ -2,17 +2,17 @@ package bar
 
 import (
 	"time"
-	"wlog3/ta4go/core"
+	"wlog3/ta4go/core/Number"
 )
 
 type Bar interface {
-	GetOpenPrice() core.Num
-	GetLowPrice() core.Num
-	GetHighPrice() core.Num
-	GetClosePrice() core.Num
-	GetVolume() core.Num
+	GetOpenPrice() Number.Num
+	GetLowPrice() Number.Num
+	GetHighPrice() Number.Num
+	GetClosePrice() Number.Num
+	GetVolume() Number.Num
 	GetTrades() int64
-	GetAmount() core.Num
+	GetAmount() Number.Num
 	GetTimePeriod() time.Duration
 	GetBeginTime() time.Time
 	GetEndTime() time.Time
@@ -22,8 +22,8 @@ type Bar interface {
 	IsBearish() bool
 	IsBullish() bool
 	AddTrade(float32, float32)
-	AddTradeSimple(core.Num, core.Num)
+	AddTradeSimple(Number.Num, Number.Num)
 	AddPriceWithString(string)
-	AddPrice(core.Num)
+	AddPrice(Number.Num)
 	ToString() string
 }

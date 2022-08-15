@@ -1,4 +1,4 @@
-package core
+package Number
 
 type Num interface {
 	Comparable[Num]
@@ -26,8 +26,8 @@ type Num interface {
 	Min(Num) Num
 	Max(Num) Num
 	NumOf(float64) Num
-	Function(Num, Num)
-	IsNan() bool
+	Function() Function[Num, Num]
+	IsNaN() bool
 	HashCode() int
 	ToString() string
 	Equals(Num) bool

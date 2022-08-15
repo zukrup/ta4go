@@ -1,4 +1,4 @@
-package core
+package Number
 
 import (
 	"fmt"
@@ -31,24 +31,50 @@ func (DoubleNum) ValueOf64f(i float64) DoubleNum {
 	return DoubleNum{i}
 }
 
-// Function implements Num
-func (*DoubleNum) Function(Num, Num) {
+// Apply implements Function
+func (DoubleNum) Apply(input Num) Num {
+	return &DoubleNum{delegate: input.GetDelegate()}
+}
+
+/*
+   default <V> Function<V, R> compose(Function<? super V, ? extends T> before) {
+       Objects.requireNonNull(before);
+       return (V v) -> apply(before.apply(v));
+   }
+*/
+// Apply implements Function
+func (d *DoubleNum) Compose(input Function[float64, Num]) Function[float64, Num] {
 	panic("unimplemented")
+}
+
+// Apply implements Function
+func (d *DoubleNum) ThenAfter(input Function[Num, float64]) Function[Num, float64] {
+	panic("unimplemented")
+}
+
+// Function implements Num
+func (d *DoubleNum) Function() Function[Num, Num] {
+	return &DoubleNum{d.delegate}
 }
 
 // abs implements Num
-func (*DoubleNum) Abs() Num {
-	panic("unimplemented")
+func (d *DoubleNum) Abs() Num {
+	d.delegate = math.Abs(d.delegate)
+	return d
 }
 
 // ceil implements Num
-func (*DoubleNum) Ceil() Num {
-	panic("unimplemented")
+func (d *DoubleNum) Ceil() Num {
+	d.delegate = math.Ceil(d.delegate)
+	return d
 }
 
 // dividedBy implements Num
-func (*DoubleNum) DividedBy(Num) Num {
-	panic("unimplemented")
+func (d *DoubleNum) DividedBy(n Num) Num {
+	if n == nil {
+		return nil
+	}
+	return &DoubleNum{delegate: d.delegate / n.GetDelegate()}
 }
 
 // equals implements Num
@@ -74,8 +100,9 @@ func (d *DoubleNum) Equals(n Num) bool {
 */
 
 // floor implements Num
-func (*DoubleNum) Floor() Num {
-	panic("unimplemented")
+func (d *DoubleNum) Floor() Num {
+	d.delegate = math.Floor(d.delegate)
+	return d
 }
 
 // getDelegate implements Num
@@ -114,7 +141,7 @@ func (d *DoubleNum) IsLessThanOrEqual(n Num) bool {
 }
 
 // isNan implements Num
-func (*DoubleNum) IsNan() bool {
+func (*DoubleNum) IsNaN() bool {
 	return false
 }
 
@@ -159,7 +186,7 @@ func (d *DoubleNum) Minus(n Num) Num {
 
 // multipliedBy implements Num
 func (d *DoubleNum) MultipliedBy(n Num) Num {
-	d.delegate += n.GetDelegate()
+	d.delegate *= n.GetDelegate()
 	return d
 }
 
@@ -190,7 +217,7 @@ func (d *DoubleNum) Pow(i int) Num {
 
 // remainder implements Num
 func (d *DoubleNum) Remainder(divisor Num) Num {
-	if divisor.IsNan() {
+	if divisor.IsNaN() {
 		return &DoubleNum{delegate: 02}
 	}
 	val := math.Remainder(d.delegate, divisor.GetDelegate())
